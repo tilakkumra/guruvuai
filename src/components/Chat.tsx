@@ -308,9 +308,9 @@ export default function Chat({ go, user, chatId, setChatId }: ChatProps) {
         }
       })
 
-      // Swapped to the correct stable model name identifier
+      // FIXED: Swapped from non-existent gemini-3.5-flash to standard official gemini-2.5-flash
       const response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
+        model: 'gemini-2.5-flash',
         contents: conversationHistory,
       })
 
