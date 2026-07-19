@@ -1,5 +1,5 @@
 {
-  "name": "studylap-ai",
+  "name": "guruvu-ai",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -7,7 +7,6 @@
   },
   "scripts": {
     "dev": "vite",
-    "postinstall": "chmod +x node_modules/.bin/* 2>/dev/null || true",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
