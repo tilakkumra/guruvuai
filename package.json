@@ -1,10 +1,13 @@
 {
-  "name": "studylap-ai",
+  "name": "guruvu-ai",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npx tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
