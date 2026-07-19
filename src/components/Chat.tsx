@@ -22,8 +22,8 @@ interface Message {
   text: string
 }
 
-const envVars = (import.meta as any).env || {}
-const apiKey = envVars.VITE_GEMINI_API_KEY
+// FIXED: Using standard static Vite syntax so it bakes into the production bundle perfectly
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY
 const ai = apiKey ? new GoogleGenAI({ apiKey: apiKey }) : null
 
 // ---------- StudyLap design tokens ----------
@@ -208,7 +208,7 @@ export default function Chat({ go, user, chatId, setChatId }: ChatProps) {
     if (!userInput || loading || !user) return
 
     if (!ai) {
-      alert("Missing Gemini API Key! Check your .env file.")
+      alert("Missing Gemini API Key! Make sure VITE_GEMINI_API_KEY is configured in Netlify's Environment Variables panel.")
       return
     }
 
@@ -308,9 +308,9 @@ export default function Chat({ go, user, chatId, setChatId }: ChatProps) {
         }
       })
 
-      // FIXED: Swapped from non-existent gemini-3.5-flash to standard official gemini-2.5-flash
+      // FIXED: Safely configured to target gemini-3.5-flash as requested
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.5-flash',
         contents: conversationHistory,
       })
 
@@ -728,7 +728,7 @@ function parseApiError(error: any): string {
     return "⚠️ **Rate limit hit.** The AI model has run out of free-tier quota for this request. Wait a minute and try again, or switch to a model/plan with available quota."
   }
   if (code === 401 || code === 403 || /api key/i.test(raw)) {
-    return "⚠️ **Authentication issue.** Your Gemini API key looks invalid or missing permissions — double check `VITE_GEMINI_API_KEY` in your `.env` file."
+    return "⚠️ **Authentication issue.** Your Gemini API key looks invalid or missing permissions — double check `VITE_GEMINI_API_KEY` in your Netlify site settings dashboard."
   }
   if (code === 400) {
     return `⚠️ **Request error.** ${message || "The request was malformed or the model identifier is deprecated. Try rephrasing your message."}`
